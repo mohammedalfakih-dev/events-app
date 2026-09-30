@@ -1,20 +1,33 @@
-# Loc Events — HackYourFuture Final Project
+# Loc Events
 
-Built by Class 55, Group A.
+A Netherlands event-discovery app backed by a Ticketmaster data pipeline: API ingestion, raw storage, dbt transformations, Airflow orchestration and PostgreSQL publishing.
+
+This is my personal portfolio fork of the [HYF Class 55, Group A project](https://github.com/HackYourFutureProjects/c55-final-project-group-A). My role was **data engineering**, working alongside another data engineer, frontend and backend teammates, and HYF mentors.
+
+## My contribution
+
+- **Ticketmaster ingestion:** implemented API integration, validation and pagination. [PR #8](https://github.com/HackYourFutureProjects/c55-final-project-group-A/pull/8)
+- **Source coverage:** expanded fetching across five 30-day date windows and deduplicated events by Ticketmaster ID. [PR #97](https://github.com/HackYourFutureProjects/c55-final-project-group-A/pull/97)
+- **Reliable publishing:** changed the PostgreSQL refresh to staging, transactional truncate and insert, preserving the existing table and its dependent views, permissions and indexes. [PR #89](https://github.com/HackYourFutureProjects/c55-final-project-group-A/pull/89)
+- **Orchestration integration:** connected the backend publishing step to the data workflow. [PR #76](https://github.com/HackYourFutureProjects/c55-final-project-group-A/pull/76)
+- **Pipeline monitoring:** customized the supplied Streamlit starter into a read-only health dashboard covering event counts, price coverage, freshness and landing files. [PR #117](https://github.com/HackYourFutureProjects/c55-final-project-group-A/pull/117)
+
+The application and data platform are team work built on HYF-provided foundations. The frontend, backend, infrastructure baseline and other data transformations have their own contributors. See [my contribution notes](docs/my-contributions.md) for the decisions and evidence behind my work.
 
 This is our final project for the [HackYourFuture program](https://hackyourfuture.net/program), built as a
 team with three roles: frontend, backend, and data engineering. We worked in an agile way, in short
 sprints, supported by a group of mentors: a Product Manager and Tech Leads. The project is open source and available
 on GitHub.
 
-### 🌐 [Live demo](https://c55a.hyf.dev)
+### [Team demo](https://c55a.hyf.dev)
 
-Demo video: coming soon.
+This is the team's hosted application, not a separate deployment of this portfolio fork.
 
 ---
 
 ## Table of contents
 
+- [My contribution](#my-contribution)
 - [About the project](#about-the-project)
 - [Screenshots](#screenshots)
 - [Features](#features)
@@ -40,7 +53,7 @@ events in the same product.
 
 ## Screenshots
 
-Two or three shots of the most important screens. Image files live in [`screenshots/`](screenshots).
+Screenshots from the team application. Image files live in [`screenshots/`](screenshots).
 
 ![The main page of the application](screenshots/home.png)
 
@@ -171,6 +184,7 @@ The architecture follows three principles:
 
 | What                        | Where                                                                  |
 |-----------------------------|------------------------------------------------------------------------|
+| My contribution notes       | [`docs/my-contributions.md`](docs/my-contributions.md)                 |
 | Frontend guide              | [`frontend/README.md`](frontend/README.md)                             |
 | Backend guide               | [`backend/README.md`](backend/README.md)                               |
 | Data pipeline guide         | [`data/README.md`](data/README.md)                                     |
@@ -181,14 +195,15 @@ The architecture follows three principles:
 
 ## CI/CD
 
-Two GitHub Actions workflows run automatically:
+The repository includes three component CI/CD workflows:
 
 | Workflow                                                | Triggers on                 | What it does                                                        |
 |---------------------------------------------------------|-----------------------------|---------------------------------------------------------------------|
 | [Backend CI/CD](.github/workflows/backend-ci-cd.yaml)   | changes under `backend/**`  | Checkstyle, tests, Docker build; pushes the image to GHCR on `main` |
 | [Frontend CI/CD](.github/workflows/frontend-ci-cd.yaml) | changes under `frontend/**` | Lint, build, Docker build; pushes the image to GHCR on `main`       |
+| [Data CI/CD](.github/workflows/data-ci-cd.yaml) | changes under `data/**` or its workflow | Python/SQL checks, tests, DAG imports; builds and publishes the ingestion image to ACR in the team deployment setup |
 
-Pull requests are only merged when their checks pass.
+These workflows describe the team's deployment setup. Azure deployment from a personal fork requires its own authorized configuration; the fork does not automatically inherit the team's deployment access.
 
 ## Team
 
