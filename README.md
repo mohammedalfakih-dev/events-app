@@ -23,6 +23,8 @@ on GitHub.
 
 This is the team's hosted application, not a separate deployment of this portfolio fork.
 
+[Watch the app demo on YouTube](https://www.youtube.com/watch?v=iIeHOsC3xxw)
+
 ---
 
 ## Table of contents
